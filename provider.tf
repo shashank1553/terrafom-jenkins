@@ -1,5 +1,5 @@
 provider "aws" {
-  region     = "us-west-2"  # Update to your desired AWS region
-  access_key = var.AWS_ACCESS_KEY_ID
-  secret_key = var.AWS_SECRET_ACCESS_KEY
+  region     = "us-west-2"  # Make sure to specify your region
+  access_key = getenv("AWS_ACCESS_KEY_ID")
+  secret_key = getenv("AWS_SECRET_ACCESS_KEY")
 }
