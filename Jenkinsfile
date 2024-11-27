@@ -1,5 +1,5 @@
 pipeline {
-    agent terraform
+    agent dev
     environment {
         // Use Jenkins credentials for AWS Access and Secret Key
         AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID ')  // Correct credentials ID
