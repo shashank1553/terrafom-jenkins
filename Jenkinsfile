@@ -1,6 +1,6 @@
 pipeline {
     agent any
-       stages {
+    stages {
         stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/shashank1553/terrafom-jenkins.git'
@@ -23,8 +23,14 @@ pipeline {
         }
         stage('Terraform Plan') {
             steps {
-                sh 'terraform plan -out=tfplan '
+                sh 'terraform plan -out=tfplan'
             }
         }
+        /* stage('Terraform Apply') {
+            steps {
+                input message: "Apply the Terraform plan?"
+                sh 'terraform apply -auto-approve tfplan'
+            }
+        } */
     }
 }
