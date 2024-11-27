@@ -1,7 +1,9 @@
 pipeline {
     agent any
     environment {
-        TF_VAR_key = credentials('terraform-aws-key') // Example: Use Jenkins credentials
+        // Use Jenkins credentials for AWS Access and Secret Key
+        AWS_ACCESS_KEY_ID = AWS_ACCESS_KEY_ID //credentials('terraform-aws-access-key')  // Correct credentials ID
+        AWS_SECRET_ACCESS_KEY = AWS_SECRET_ACCESS_KEY //credentials('terraform-aws-secret-key')  // Correct credentials ID
     }
     stages {
         stage('Checkout') {
@@ -14,12 +16,12 @@ pipeline {
                 sh 'terraform init'
             }
         }
-         stage('Terraform fmt') {
+        stage('Terraform fmt') {
             steps {
                 sh 'terraform fmt'
             }
         }
-         stage('Terraform validate') {
+        stage('Terraform validate') {
             steps {
                 sh 'terraform validate'
             }
@@ -28,12 +30,12 @@ pipeline {
             steps {
                 sh 'terraform plan -out=tfplan'
             }
-        }/*
-        stage('Terraform Apply') {
+        }
+        /* stage('Terraform Apply') {
             steps {
                 input message: "Apply the Terraform plan?"
                 sh 'terraform apply -auto-approve tfplan'
             }
-        }*/
+        } */
     }
 }
