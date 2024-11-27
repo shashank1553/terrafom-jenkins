@@ -1,9 +1,9 @@
 pipeline {
     agent any
     environment {
-        // Use Jenkins credentials for AWS Access and Secret Key
-        AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID ')  // Correct credentials ID
-        AWS_SECRET_ACCESS_KEY =  credentials('AWS_SECRET_ACCESS_KEY')  // Correct credentials ID
+        // Ensure the AWS credentials are passed from Jenkins credentials store
+        AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')  // This references Jenkins stored credentials
+        AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
     }
     stages {
         stage('Checkout') {
@@ -28,14 +28,12 @@ pipeline {
         }
         stage('Terraform Plan') {
             steps {
-                sh 'terraform plan -out=tfplan'
+                sh '''
+                    terraform plan -out=tfplan \
+                    -var "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}" \
+                    -var "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}"
+                '''
             }
         }
-        /* stage('Terraform Apply') {
-            steps {
-                input message: "Apply the Terraform plan?"
-                sh 'terraform apply -auto-approve tfplan'
-            }
-        } */
     }
 }
