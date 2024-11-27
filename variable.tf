@@ -1,5 +1,4 @@
 
-
 variable "instance_ami" {
   description = "mention the ec2 ami"
   type        = string
