@@ -1,35 +1,33 @@
 pipeline {
     agent any
+
+    environment {
+        AWS_ACCESS_KEY_ID = credentials('aws-access-key')
+        AWS_SECRET_ACCESS_KEY = credentials('aws-secret-key')
+    }
+
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/shashank1553/terrafom-jenkins.git'
+                git 'https://github.com/your-repo/terraform-jenkins-pipeline.git'
             }
         }
+
         stage('Terraform Init') {
             steps {
                 sh 'terraform init'
             }
         }
-        stage('Terraform fmt') {
-            steps {
-                sh 'terraform fmt'
-            }
-        }
-        stage('Terraform validate') {
-            steps {
-                sh 'terraform validate'
-            }
-        }
+
         stage('Terraform Plan') {
             steps {
-                sh 'terraform plan -out=tfplan'
+                sh 'terraform plan -out=tfplan -var AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID -var AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY'
             }
         }
-        /* stage('Terraform Apply') {
+/*
+        stage('Terraform Apply') {
             steps {
-                input message: "Apply the Terraform plan?"
-                sh 'terraform apply -auto-approve tfplan'
+                sh 'terraform apply tfplan'
             }
         } */
     }
