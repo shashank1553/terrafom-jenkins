@@ -1,12 +1,4 @@
-variable "AWS_ACCESS_KEY_ID" {
-  description = "AWS access key"
-  type        = string
-}
 
-variable "AWS_SECRET_ACCESS_KEY" {
-  description = "AWS secret access key"
-  type        = string
-}
 
 variable "instance_ami" {
   description = "mention the ec2 ami"
